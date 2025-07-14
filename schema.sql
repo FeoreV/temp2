@@ -7,14 +7,21 @@ CREATE TABLE IF NOT EXISTS categories (
   name VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS brands (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS products (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   description TEXT,
   price DECIMAL(10, 2) NOT NULL,
   category_id INT,
+  brand_id INT,
   image_url VARCHAR(255),
-  FOREIGN KEY (category_id) REFERENCES categories(id)
+  FOREIGN KEY (category_id) REFERENCES categories(id),
+  FOREIGN KEY (brand_id) REFERENCES brands(id)
 );
 
 CREATE TABLE IF NOT EXISTS reviews (

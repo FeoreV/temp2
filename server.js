@@ -78,6 +78,62 @@ app.post('/admin/categories/add', (req, res) => {
   });
 });
 
+// Brand routes
+app.get('/admin/brands', (req, res) => {
+  db.query('SELECT * FROM brands', (err, brands) => {
+    if (err) throw err;
+    res.render('admin/brands', { brands });
+  });
+});
+
+app.get('/admin/brands/add', (req, res) => {
+  res.render('admin/brand-form', {
+    title: 'Добавить бренд',
+    action: '/admin/brands/add',
+    submitText: 'Добавить',
+    brand: {}
+  });
+});
+
+app.post('/admin/brands/add', (req, res) => {
+  db.query('INSERT INTO brands SET ?', req.body, (err) => {
+    if (err) throw err;
+    res.redirect('/admin/brands');
+  });
+});
+
+app.get('/admin/brands/edit/:id', (req, res) => {
+  const brandId = req.params.id;
+  db.query('SELECT * FROM brands WHERE id = ?', [brandId], (err, brands) => {
+    if (err || brands.length === 0) {
+      res.status(404).send('Brand not found');
+      return;
+    }
+    res.render('admin/brand-form', {
+      title: 'Редактировать бренд',
+      action: `/admin/brands/edit/${brandId}`,
+      submitText: 'Сохранить',
+      brand: brands[0]
+    });
+  });
+});
+
+app.post('/admin/brands/edit/:id', (req, res) => {
+  const brandId = req.params.id;
+  db.query('UPDATE brands SET ? WHERE id = ?', [req.body, brandId], (err) => {
+    if (err) throw err;
+    res.redirect('/admin/brands');
+  });
+});
+
+app.post('/admin/brands/delete/:id', (req, res) => {
+  const brandId = req.params.id;
+  db.query('DELETE FROM brands WHERE id = ?', [brandId], (err) => {
+    if (err) throw err;
+    res.redirect('/admin/brands');
+  });
+});
+
 app.get('/admin/categories/edit/:id', (req, res) => {
   const categoryId = req.params.id;
   db.query('SELECT * FROM categories WHERE id = ?', [categoryId], (err, categories) => {
@@ -172,10 +228,16 @@ app.get('/api/products', (req, res) => {
   let sql = 'SELECT * FROM products WHERE 1=1';
   const params = [];
 
-  if (req.query.category) {
+  if (req.query.category && req.query.category.length > 0) {
     const categories = req.query.category.split(',');
     sql += ' AND category_id IN (?)';
     params.push(categories);
+  }
+
+  if (req.query.brand && req.query.brand.length > 0) {
+    const brands = req.query.brand.split(',');
+    sql += ' AND brand_id IN (?)';
+    params.push(brands);
   }
 
   if (req.query.search) {
@@ -183,11 +245,27 @@ app.get('/api/products', (req, res) => {
     params.push(`%${req.query.search}%`);
   }
 
+  if (req.query.price) {
+    sql += ' AND price <= ?';
+    params.push(req.query.price);
+  }
+
   if (req.query.sort) {
-    if (req.query.sort === 'price_asc') {
-      sql += ' ORDER BY price ASC';
-    } else if (req.query.sort === 'price_desc') {
-      sql += ' ORDER BY price DESC';
+    switch (req.query.sort) {
+      case 'price_asc':
+        sql += ' ORDER BY price ASC';
+        break;
+      case 'price_desc':
+        sql += ' ORDER BY price DESC';
+        break;
+      case 'popularity':
+        // Popularity can be implemented, for example, by number of orders
+        // For now, let's sort by name as a placeholder
+        sql += ' ORDER BY name ASC';
+        break;
+      case 'newest':
+        sql += ' ORDER BY id DESC';
+        break;
     }
   }
 

@@ -16,9 +16,9 @@
       </div>
       <div class="filter-group">
         <h3>Бренды</h3>
-        <label><input type="checkbox"> Бренд 1</label>
-        <label><input type="checkbox"> Бренд 2</label>
-        <label><input type="checkbox"> Бренд 3</label>
+        <% brands.forEach(brand => { %>
+          <label><input type="checkbox" name="brand" value="<%= brand.id %>"> <%= brand.name %></label>
+        <% }); %>
       </div>
     </aside>
 

@@ -1,0 +1,33 @@
+<%- include('../partials/header') %>
+
+<main>
+  <h1>Бренды</h1>
+
+  <a href="/admin/brands/add" class="btn">Добавить бренд</a>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% brands.forEach(brand => { %>
+        <tr>
+          <td><%= brand.id %></td>
+          <td><%= brand.name %></td>
+          <td>
+            <a href="/admin/brands/edit/<%= brand.id %>">Редактировать</a>
+            <form action="/admin/brands/delete/<%= brand.id %>" method="post" style="display: inline;">
+              <button type="submit" class="btn-danger">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</main>
+
+<%- include('../partials/footer') %>

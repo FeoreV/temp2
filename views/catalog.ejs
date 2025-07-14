@@ -14,12 +14,6 @@
           <label><input type="checkbox" name="category" value="<%= category.id %>"> <%= category.name %></label>
         <% }); %>
       </div>
-      <div class="filter-group">
-        <h3>Бренды</h3>
-        <% brands.forEach(brand => { %>
-          <label><input type="checkbox" name="brand" value="<%= brand.id %>"> <%= brand.name %></label>
-        <% }); %>
-      </div>
     </aside>
 
     <section class="catalog-products">

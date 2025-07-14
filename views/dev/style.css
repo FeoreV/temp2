@@ -1,22 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap');
-:root{
-    --color1: 30, 40, 50;
-    --color2: 9, 18, 24;
-    --color3: 35, 120, 200;
-    --text0: 255,255,255;
-    --text1: 174, 174, 174;
-    --text2: 107, 107, 107;
-}
-html,body{
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
-    background: var(--color02);
-}
-
-main{
-  height: 100%;
-}
 
 :root.theme-dark{
     --color1: 30, 40, 50;
@@ -137,82 +119,13 @@ header nav {
     margin: 0 auto;
 }
 
-footer{
-  display: flex;
-    background: var(--color01);
-    color: var(--footer-text-color);
-    text-align: center;
-    position: relative;
-    bottom: 0;
-    border-radius: 16px 16px 0 0;
-}
-
-.footer-columns{
-  width: 100%;
-}
-
-.usp{
-  display: flex;
-}
-
-section{
-  background: var(--opacity01b);
-  border-radius: 16px;
-  outline: 3px solid var(--color02);
-}
 
 
-.usp-list{
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: initial;
-  padding: 20px;
-}
 
-header ul img, .advantage-card img{
-    filter: brightness(0) saturate(100%) invert(39%) sepia(84%) saturate(492%) hue-rotate(167deg) brightness(92%) contrast(98%);
-}
 
-.advantage-card {
-    width: 100%;
-    background-color: var(--opacity01);
-    padding: 25px;
-    border: 1px solid var(--border-color, #eee);
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
 
-.advantage-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-}
-.advantage-icon {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 15px;
-    color: var(--accent-color, #007bff);
-}
-.advantage-card img.advantage-icon {
-    object-fit: contain;
-}
-.advantage-card h3 {
-    font-size: 1.25em;
-    margin-top: 0;
-    margin-bottom: 10px;
-    color: var(--nav-link-color, #0056b3);
-}
-.advantage-card p {
-    font-size: 0.95em;
-    line-height: 1.5;
-    color: var(--text-color);
-    margin-bottom: 0;
-}
+
+
 
 
 
@@ -350,3 +263,9 @@ main {
   padding: 10px;
 }
 
+footer {
+  background-color: #2c3e50;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
+}

@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Наш Магазин - Главная</title>
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-
-    <%- include('partials/header') %>
-
     <main>
         <section class="slider">
             <div class="slider-item">
@@ -34,31 +31,22 @@
         </section>
 
         <section class="usp">
+            <h2>Наши преимущества</h2>
             <div class="usp-list">
-                <div class="advantage-card">
-                    <img src="images/icon-assortment.svg" alt="Широкий ассортимент" class="advantage-icon">
-                    <h3>Широкий ассортимент</h3>
-                    <p>Проволока, электроды, абразивы, СИЗ, оборудование и многое другое.</p>
+                <div class="usp-item">
+                    <i class="fas fa-truck"></i>
+                    <h3>Быстрая доставка</h3>
+                    <p>Доставляем заказы в кратчайшие сроки.</p>
                 </div>
-                <div class="advantage-card">
-                    <img src="images/icon-quality.svg" alt="Высокое качество" class="advantage-icon">
-                    <h3>Высокое качество</h3>
-                    <p>Только сертифицированная продукция от проверенных производителей.</p>
+                <div class="usp-item">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Гарантия качества</h3>
+                    <p>Все товары проходят строгий контроль качества.</p>
                 </div>
-                <div class="advantage-card">
-                    <img src="images/icon-prices.svg" alt="Конкурентные цены" class="advantage-icon">
-                    <h3>Конкурентные цены</h3>
-                    <p>Выгодные условия для оптовых и розничных покупателей.</p>
-                </div>
-                <div class="advantage-card">
-                    <img src="images/icon-delivery.svg" alt="Оперативная доставка" class="advantage-icon">
-                    <h3>Оперативная доставка</h3>
-                    <p>Быстрая логистика по Тюмени, области и в регионы СНГ.</p>
-                </div>
-                <div class="advantage-card">
-                    <img src="images/icon-support.svg" alt="Экспертная поддержка" class="advantage-icon">
-                    <h3>Экспертная поддержка</h3>
-                    <p>Консультации и помощь в выборе оптимальных решений для ваших задач.</p>
+                <div class="usp-item">
+                    <i class="fas fa-thumbs-up"></i>
+                    <h3>Лучшие цены</h3>
+                    <p>Предлагаем самые выгодные цены на рынке.</p>
                 </div>
             </div>
         </section>

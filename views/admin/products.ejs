@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+
+<main>
+  <h1>Товары</h1>
+
+  <a href="/admin/products/add" class="btn">Добавить товар</a>
+
+  <form action="/admin/products/import" method="post" enctype="multipart/form-data">
+    <input type="file" name="csv" accept=".csv">
+    <button type="submit" class="btn">Импортировать</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Название</th>
+        <th>Цена</th>
+        <th>Действия</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% products.forEach(product => { %>
+        <tr>
+          <td><%= product.id %></td>
+          <td><%= product.name %></td>
+          <td><%= product.price %></td>
+          <td>
+            <a href="/admin/products/edit/<%= product.id %>">Редактировать</a>
+            <form action="/admin/products/delete/<%= product.id %>" method="post" style="display: inline;">
+              <button type="submit" class="btn-danger">Удалить</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</main>
+
+<%- include('../partials/footer') %>

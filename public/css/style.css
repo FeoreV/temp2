@@ -1,6 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans&display=swap');
+
 body {
-  font-family: sans-serif;
+  font-family: 'Open Sans', sans-serif;
   margin: 0;
+  background-color: #ecf0f1;
+  color: #34495e;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', sans-serif;
+  color: #2c3e50;
+}
+
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+.btn {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #2980b9;
+}
+
+header {
+  background-color: #2c3e50;
+  padding: 20px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header .logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+header nav a {
+  color: #fff;
+  margin: 0 15px;
 }
 
 main {
@@ -55,4 +101,11 @@ main {
 .review-item {
   border: 1px solid #ccc;
   padding: 10px;
+}
+
+footer {
+  background-color: #2c3e50;
+  padding: 20px;
+  color: #fff;
+  text-align: center;
 }

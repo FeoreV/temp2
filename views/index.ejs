@@ -1,59 +1,82 @@
 <%- include('partials/header') %>
 
 <main>
-  <!-- Slider-banners -->
   <section class="slider">
     <div class="slider-item">
-      <img src="https://via.placeholder.com/1200x400" alt="Banner 1">
+      <img src="https://via.placeholder.com/1200x400?text=Slider+Banner" alt="Banner 1">
     </div>
   </section>
 
-  <!-- Categories -->
   <section class="categories">
     <h2>Категории</h2>
     <div class="category-list">
-      <div class="category-item">
-        <img src="https://via.placeholder.com/300x300" alt="Category 1">
-        <h3>Категория 1</h3>
+      <% categories.forEach(category => { %>
+        <div class="category-item">
+          <a href="/catalog?category=<%= category.id %>">
+            <img src="https://via.placeholder.com/300x300?text=<%= category.name %>" alt="<%= category.name %>">
+            <h3><%= category.name %></h3>
+          </a>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+
+  <section class="usp">
+    <h2>Наши преимущества</h2>
+    <div class="usp-list">
+      <div class="usp-item">
+        <i class="fas fa-truck"></i>
+        <h3>Быстрая доставка</h3>
       </div>
-      <div class="category-item">
-        <img src="https://via.placeholder.com/300x300" alt="Category 2">
-        <h3>Категория 2</h3>
+      <div class="usp-item">
+        <i class="fas fa-check-circle"></i>
+        <h3>Гарантия качества</h3>
       </div>
-      <div class="category-item">
-        <img src="https://via.placeholder.com/300x300" alt="Category 3">
-        <h3>Категория 3</h3>
+      <div class="usp-item">
+        <i class="fas fa-thumbs-up"></i>
+        <h3>Лучшие цены</h3>
       </div>
     </div>
   </section>
 
-  <!-- USP -->
-  <section class="usp">
-    <h2>Наши преимущества</h2>
-    <ul>
-      <li>Быстрая доставка</li>
-      <li>Гарантия качества</li>
-      <li>Лучшие цены</li>
-    </ul>
-  </section>
-
-  <!-- New products -->
   <section class="new-products">
     <h2>Новинки</h2>
     <div class="product-list">
-      <!-- Product placeholders -->
+      <% newProducts.forEach(product => { %>
+        <div class="product-card">
+          <a href="/product/<%= product.id %>">
+            <img src="<%= product.image_url %>" alt="<%= product.name %>">
+            <h3><%= product.name %></h3>
+            <p>Цена: <%= product.price %> руб.</p>
+          </a>
+          <form action="/cart/add" method="post">
+            <input type="hidden" name="productId" value="<%= product.id %>">
+            <button type="submit" class="btn">В корзину</button>
+          </form>
+        </div>
+      <% }); %>
     </div>
   </section>
 
-  <!-- Best sellers -->
   <section class="best-sellers">
     <h2>Хиты продаж</h2>
     <div class="product-list">
-      <!-- Product placeholders -->
+      <% bestSellers.forEach(product => { %>
+        <div class="product-card">
+          <a href="/product/<%= product.id %>">
+            <img src="<%= product.image_url %>" alt="<%= product.name %>">
+            <h3><%= product.name %></h3>
+            <p>Цена: <%= product.price %> руб.</p>
+          </a>
+          <form action="/cart/add" method="post">
+            <input type="hidden" name="productId" value="<%= product.id %>">
+            <button type="submit" class="btn">В корзину</button>
+          </form>
+        </div>
+      <% }); %>
     </div>
   </section>
 
-  <!-- Reviews -->
   <section class="reviews">
     <h2>Отзывы</h2>
     <div class="review-list">

@@ -20,9 +20,11 @@
   },
   "homepage": "https://github.com/FeoreV/temp2#readme",
   "dependencies": {
+    "csv-parser": "^3.2.0",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.1",
+    "multer": "^2.0.1",
     "mysql": "^2.18.1"
   }
 }

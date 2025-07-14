@@ -3,21 +3,38 @@
 <main>
   <h1>Корзина</h1>
 
-  <div class="cart-items">
-    <% cart.forEach(item => { %>
-      <div class="cart-item">
-        <span><%= item.name %></span>
-        <span><%= item.quantity %> x <%= item.price %> руб.</span>
-      </div>
-    <% }); %>
-  </div>
+  <div class="cart-container">
+    <div class="cart-items">
+      <% if (cart.length > 0) { %>
+        <% cart.forEach(item => { %>
+          <div class="cart-item">
+            <img src="<%= item.image_url %>" alt="<%= item.name %>">
+            <div class="item-details">
+              <h3><%= item.name %></h3>
+              <p>Цена: <%= item.price %> руб.</p>
+              <p>Количество: <%= item.quantity %></p>
+            </div>
+            <form action="/cart/remove" method="post">
+              <input type="hidden" name="productId" value="<%= item.id %>">
+              <button type="submit" class="btn-danger"><i class="fas fa-trash"></i></button>
+            </form>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>Ваша корзина пуста.</p>
+      <% } %>
+    </div>
 
-  <div class="cart-total">
-    <p>Итого: <strong><%= total %> руб.</strong></p>
-    <form action="/cart/clear" method="post">
-      <button type="submit">Очистить корзину</button>
-    </form>
-    <button>Оформить заказ</button>
+    <% if (cart.length > 0) { %>
+      <div class="cart-summary">
+        <h3>Итого</h3>
+        <p>Сумма: <%= total %> руб.</p>
+        <a href="/checkout" class="btn">Оформить заказ</a>
+        <form action="/cart/clear" method="post">
+          <button type="submit" class="btn-secondary">Очистить корзину</button>
+        </form>
+      </div>
+    <% } %>
   </div>
 </main>
 

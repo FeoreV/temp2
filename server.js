@@ -235,6 +235,14 @@ app.post('/cart/add', (req, res) => {
   res.redirect('/catalog');
 });
 
+app.post('/cart/remove', (req, res) => {
+  const productId = parseInt(req.body.productId);
+  let cart = req.session.cart || [];
+  cart = cart.filter(item => item.id !== productId);
+  req.session.cart = cart;
+  res.redirect('/cart');
+});
+
 app.post('/cart/clear', (req, res) => {
   req.session.cart = [];
   res.redirect('/cart');

@@ -173,8 +173,9 @@ app.get('/api/products', (req, res) => {
   const params = [];
 
   if (req.query.category) {
-    sql += ' AND category_id = ?';
-    params.push(req.query.category);
+    const categories = req.query.category.split(',');
+    sql += ' AND category_id IN (?)';
+    params.push(categories);
   }
 
   if (req.query.search) {

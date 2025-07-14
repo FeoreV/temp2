@@ -7,7 +7,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterData = new FormData(filterForm);
     const searchQuery = searchInput.value;
     const sortBy = sortSelect.value;
-    const params = new URLSearchParams(filterData);
+    const params = new URLSearchParams();
+
+    // Handle checkboxes for categories
+    const categories = filterData.getAll('category');
+    if (categories.length > 0) {
+      params.append('category', categories.join(','));
+    }
+
     if (searchQuery) {
       params.append('search', searchQuery);
     }

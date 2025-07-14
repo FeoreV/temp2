@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<main>
+  <h1>Каталог</h1>
+
+  <aside class="filters">
+    <h2>Фильтры</h2>
+    <!-- Filter placeholders -->
+  </aside>
+
+  <section class="catalog-products">
+    <div class="search-bar">
+      <input type="text" placeholder="Поиск...">
+      <button>Найти</button>
+    </div>
+
+    <div class="product-list">
+      <% products.forEach(product => { %>
+        <div class="product-card">
+          <img src="<%= product.image_url %>" alt="<%= product.name %>">
+          <h3><%= product.name %></h3>
+          <p>Цена: <%= product.price %> руб.</p>
+          <form action="/cart/add" method="post">
+            <input type="hidden" name="productId" value="<%= product.id %>">
+            <button type="submit">В корзину</button>
+          </form>
+        </div>
+      <% }); %>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

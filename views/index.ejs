@@ -14,10 +14,20 @@
 
     <main>
         <section class="slider">
-            <div class="slider-item">
-                <img src="https://via.placeholder.com/1200x400?text=Slider+Banner" alt="Баннер 1">
-            </div>
-            </section>
+            <% if (banners.length > 0) { %>
+              <% banners.forEach(banner => { %>
+                <div class="slider-item">
+                    <a href="<%= banner.link_url %>">
+                        <img src="<%= banner.image_url %>" alt="<%= banner.title %>">
+                    </a>
+                </div>
+              <% }) %>
+            <% } else { %>
+                <div class="slider-item">
+                    <img src="https://via.placeholder.com/1200x400?text=Slider+Banner" alt="Баннер 1">
+                </div>
+            <% } %>
+        </section>
 
         <section class="categories">
             <h2>Категории</h2>

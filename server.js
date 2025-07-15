@@ -1,5 +1,6 @@
 const express = require('express');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 const app = express();
 const port = 3000;
 
@@ -14,27 +15,30 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  db.query('SELECT * FROM categories LIMIT 3', (err, categories) => {
+  db.query('SELECT * FROM banners', (err, banners) => {
     if (err) throw err;
-    db.query('SELECT * FROM products ORDER BY id DESC LIMIT 4', (err, newProducts) => {
+    db.query('SELECT * FROM categories LIMIT 3', (err, categories) => {
       if (err) throw err;
-      db.query('SELECT * FROM products ORDER BY RAND() LIMIT 4', (err, bestSellers) => {
+      db.query('SELECT * FROM products ORDER BY id DESC LIMIT 4', (err, newProducts) => {
         if (err) throw err;
-        res.render('index', { categories, newProducts, bestSellers });
+        db.query('SELECT * FROM products ORDER BY RAND() LIMIT 4', (err, bestSellers) => {
+          if (err) throw err;
+          res.render('index', { banners, categories, newProducts, bestSellers });
+        });
       });
     });
   });
 });
 
 // Product routes
-app.get('/admin/products', (req, res) => {
+app.get('/admin/products', requireAdmin, (req, res) => {
   db.query('SELECT * FROM products', (err, products) => {
     if (err) throw err;
     res.render('admin/products', { products });
   });
 });
 
-app.get('/admin/products/add', (req, res) => {
+app.get('/admin/products/add', requireAdmin, (req, res) => {
   db.query('SELECT * FROM categories', (err, categories) => {
     if (err) throw err;
     res.render('admin/product-form', {
@@ -47,7 +51,7 @@ app.get('/admin/products/add', (req, res) => {
   });
 });
 
-app.post('/admin/products/add', (req, res) => {
+app.post('/admin/products/add', requireAdmin, (req, res) => {
   db.query('INSERT INTO products SET ?', req.body, (err) => {
     if (err) throw err;
     res.redirect('/admin/products');
@@ -55,14 +59,14 @@ app.post('/admin/products/add', (req, res) => {
 });
 
 // Category routes
-app.get('/admin/categories', (req, res) => {
+app.get('/admin/categories', requireAdmin, (req, res) => {
   db.query('SELECT * FROM categories', (err, categories) => {
     if (err) throw err;
     res.render('admin/categories', { categories });
   });
 });
 
-app.get('/admin/categories/add', (req, res) => {
+app.get('/admin/categories/add', requireAdmin, (req, res) => {
   res.render('admin/category-form', {
     title: 'Добавить категорию',
     action: '/admin/categories/add',
@@ -71,7 +75,7 @@ app.get('/admin/categories/add', (req, res) => {
   });
 });
 
-app.post('/admin/categories/add', (req, res) => {
+app.post('/admin/categories/add', requireAdmin, (req, res) => {
   db.query('INSERT INTO categories SET ?', req.body, (err) => {
     if (err) throw err;
     res.redirect('/admin/categories');
@@ -79,14 +83,14 @@ app.post('/admin/categories/add', (req, res) => {
 });
 
 // Brand routes
-app.get('/admin/brands', (req, res) => {
+app.get('/admin/brands', requireAdmin, (req, res) => {
   db.query('SELECT * FROM brands', (err, brands) => {
     if (err) throw err;
     res.render('admin/brands', { brands });
   });
 });
 
-app.get('/admin/brands/add', (req, res) => {
+app.get('/admin/brands/add', requireAdmin, (req, res) => {
   res.render('admin/brand-form', {
     title: 'Добавить бренд',
     action: '/admin/brands/add',
@@ -95,14 +99,14 @@ app.get('/admin/brands/add', (req, res) => {
   });
 });
 
-app.post('/admin/brands/add', (req, res) => {
+app.post('/admin/brands/add', requireAdmin, (req, res) => {
   db.query('INSERT INTO brands SET ?', req.body, (err) => {
     if (err) throw err;
     res.redirect('/admin/brands');
   });
 });
 
-app.get('/admin/brands/edit/:id', (req, res) => {
+app.get('/admin/brands/edit/:id', requireAdmin, (req, res) => {
   const brandId = req.params.id;
   db.query('SELECT * FROM brands WHERE id = ?', [brandId], (err, brands) => {
     if (err || brands.length === 0) {
@@ -118,7 +122,7 @@ app.get('/admin/brands/edit/:id', (req, res) => {
   });
 });
 
-app.post('/admin/brands/edit/:id', (req, res) => {
+app.post('/admin/brands/edit/:id', requireAdmin, (req, res) => {
   const brandId = req.params.id;
   db.query('UPDATE brands SET ? WHERE id = ?', [req.body, brandId], (err) => {
     if (err) throw err;
@@ -126,7 +130,7 @@ app.post('/admin/brands/edit/:id', (req, res) => {
   });
 });
 
-app.post('/admin/brands/delete/:id', (req, res) => {
+app.post('/admin/brands/delete/:id', requireAdmin, (req, res) => {
   const brandId = req.params.id;
   db.query('DELETE FROM brands WHERE id = ?', [brandId], (err) => {
     if (err) throw err;
@@ -134,7 +138,7 @@ app.post('/admin/brands/delete/:id', (req, res) => {
   });
 });
 
-app.get('/admin/categories/edit/:id', (req, res) => {
+app.get('/admin/categories/edit/:id', requireAdmin, (req, res) => {
   const categoryId = req.params.id;
   db.query('SELECT * FROM categories WHERE id = ?', [categoryId], (err, categories) => {
     if (err || categories.length === 0) {
@@ -150,7 +154,7 @@ app.get('/admin/categories/edit/:id', (req, res) => {
   });
 });
 
-app.post('/admin/categories/edit/:id', (req, res) => {
+app.post('/admin/categories/edit/:id', requireAdmin, (req, res) => {
   const categoryId = req.params.id;
   db.query('UPDATE categories SET ? WHERE id = ?', [req.body, categoryId], (err) => {
     if (err) throw err;
@@ -158,7 +162,7 @@ app.post('/admin/categories/edit/:id', (req, res) => {
   });
 });
 
-app.post('/admin/categories/delete/:id', (req, res) => {
+app.post('/admin/categories/delete/:id', requireAdmin, (req, res) => {
   const categoryId = req.params.id;
   db.query('DELETE FROM categories WHERE id = ?', [categoryId], (err) => {
     if (err) throw err;
@@ -166,7 +170,7 @@ app.post('/admin/categories/delete/:id', (req, res) => {
   });
 });
 
-app.get('/admin/products/edit/:id', (req, res) => {
+app.get('/admin/products/edit/:id', requireAdmin, (req, res) => {
   const productId = req.params.id;
   db.query('SELECT * FROM products WHERE id = ?', [productId], (err, products) => {
     if (err || products.length === 0) {
@@ -186,7 +190,7 @@ app.get('/admin/products/edit/:id', (req, res) => {
   });
 });
 
-app.post('/admin/products/edit/:id', (req, res) => {
+app.post('/admin/products/edit/:id', requireAdmin, (req, res) => {
   const productId = req.params.id;
   db.query('UPDATE products SET ? WHERE id = ?', [req.body, productId], (err) => {
     if (err) throw err;
@@ -194,7 +198,7 @@ app.post('/admin/products/edit/:id', (req, res) => {
   });
 });
 
-app.post('/admin/products/delete/:id', (req, res) => {
+app.post('/admin/products/delete/:id', requireAdmin, (req, res) => {
   const productId = req.params.id;
   db.query('DELETE FROM products WHERE id = ?', [productId], (err) => {
     if (err) throw err;
@@ -209,18 +213,54 @@ const db = require('./database');
 
 const upload = multer({ dest: 'uploads/' });
 
-app.post('/admin/products/import', upload.single('csv'), (req, res) => {
+app.post('/admin/products/import', requireAdmin, upload.single('csv'), (req, res) => {
   const results = [];
   fs.createReadStream(req.file.path)
     .pipe(csv())
-    .on('data', (data) => results.push(Object.values(data)))
-    .on('end', () => {
-      const sql = 'INSERT INTO products (name, description, price, category_id, image_url) VALUES ?';
-      db.query(sql, [results], (err) => {
-        if (err) throw err;
+    .on('data', (data) => {
+      // Assuming CSV columns are: name, description, price, category_name, brand_name, image_url
+      results.push(data);
+    })
+    .on('end', async () => {
+      try {
+        for (const product of results) {
+          // Find or create category
+          let categoryId;
+          const [catRows] = await db.promise().query('SELECT id FROM categories WHERE name = ?', [product.category_name]);
+          if (catRows.length > 0) {
+            categoryId = catRows[0].id;
+          } else {
+            const [newCat] = await db.promise().query('INSERT INTO categories (name) VALUES (?)', [product.category_name]);
+            categoryId = newCat.insertId;
+          }
+
+          // Find or create brand
+          let brandId;
+          const [brandRows] = await db.promise().query('SELECT id FROM brands WHERE name = ?', [product.brand_name]);
+          if (brandRows.length > 0) {
+            brandId = brandRows[0].id;
+          } else {
+            const [newBrand] = await db.promise().query('INSERT INTO brands (name) VALUES (?)', [product.brand_name]);
+            brandId = newBrand.insertId;
+          }
+
+          // Insert product
+          const newProduct = {
+            name: product.name,
+            description: product.description,
+            price: product.price,
+            category_id: categoryId,
+            brand_id: brandId,
+            image_url: product.image_url
+          };
+          await db.promise().query('INSERT INTO products SET ?', newProduct);
+        }
         fs.unlinkSync(req.file.path); // remove uploaded file
         res.redirect('/admin/products');
-      });
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Error importing products');
+      }
     });
 });
 
@@ -372,18 +412,69 @@ app.get('/thank-you', (req, res) => {
   res.send('Спасибо за ваш заказ!');
 });
 
-app.get('/admin', (req, res) => {
+// Middleware to protect admin routes
+const requireAdmin = (req, res, next) => {
+  if (req.session.isAdmin) {
+    next();
+  } else {
+    res.redirect('/admin/login');
+  }
+};
+
+app.get('/admin/login', (req, res) => {
+  res.render('admin/login');
+});
+
+app.post('/admin/login', (req, res) => {
+  const { username, password } = req.body;
+  db.query('SELECT * FROM admins WHERE username = ?', [username], (err, results) => {
+    if (err) throw err;
+    if (results.length > 0) {
+      bcrypt.compare(password, results[0].password, (err, isMatch) => {
+        if (err) throw err;
+        if (isMatch) {
+          req.session.isAdmin = true;
+          res.redirect('/admin');
+        } else {
+          res.send('Incorrect password');
+        }
+      });
+    } else {
+      res.send('Admin not found');
+    }
+  });
+});
+
+app.get('/admin/logout', (req, res) => {
+  req.session.destroy();
+  res.redirect('/admin/login');
+});
+
+// Script to add a new admin
+app.get('/admin/add-admin', (req, res) => {
+    const saltRounds = 10;
+    const plainPassword = 'admin'; // Replace with a strong password
+    bcrypt.hash(plainPassword, saltRounds, (err, hash) => {
+        if (err) throw err;
+        db.query('INSERT INTO admins (username, password) VALUES (?, ?)', ['admin', hash], (err, result) => {
+            if (err) throw err;
+            res.send('Admin user created!');
+        });
+    });
+});
+
+app.get('/admin', requireAdmin, (req, res) => {
   res.render('admin');
 });
 
-app.get('/admin/orders', (req, res) => {
+app.get('/admin/orders', requireAdmin, (req, res) => {
   db.query('SELECT * FROM orders ORDER BY created_at DESC', (err, orders) => {
     if (err) throw err;
     res.render('admin/orders', { orders });
   });
 });
 
-app.get('/admin/orders/:id', (req, res) => {
+app.get('/admin/orders/:id', requireAdmin, (req, res) => {
   const orderId = req.params.id;
   db.query('SELECT * FROM orders WHERE id = ?', [orderId], (err, orders) => {
     if (err || orders.length === 0) {
@@ -400,6 +491,62 @@ app.get('/admin/orders/:id', (req, res) => {
       if (err) throw err;
       res.render('admin/order', { order: orders[0], items });
     });
+  });
+});
+
+// Banner routes
+app.get('/admin/banners', requireAdmin, (req, res) => {
+  db.query('SELECT * FROM banners', (err, banners) => {
+    if (err) throw err;
+    res.render('admin/banners', { banners });
+  });
+});
+
+app.get('/admin/banners/add', requireAdmin, (req, res) => {
+  res.render('admin/banner-form', {
+    title: 'Добавить баннер',
+    action: '/admin/banners/add',
+    submitText: 'Добавить',
+    banner: {}
+  });
+});
+
+app.post('/admin/banners/add', requireAdmin, (req, res) => {
+  db.query('INSERT INTO banners SET ?', req.body, (err) => {
+    if (err) throw err;
+    res.redirect('/admin/banners');
+  });
+});
+
+app.get('/admin/banners/edit/:id', requireAdmin, (req, res) => {
+  const bannerId = req.params.id;
+  db.query('SELECT * FROM banners WHERE id = ?', [bannerId], (err, banners) => {
+    if (err || banners.length === 0) {
+      res.status(404).send('Banner not found');
+      return;
+    }
+    res.render('admin/banner-form', {
+      title: 'Редактировать баннер',
+      action: `/admin/banners/edit/${bannerId}`,
+      submitText: 'Сохранить',
+      banner: banners[0]
+    });
+  });
+});
+
+app.post('/admin/banners/edit/:id', requireAdmin, (req, res) => {
+  const bannerId = req.params.id;
+  db.query('UPDATE banners SET ? WHERE id = ?', [req.body, bannerId], (err) => {
+    if (err) throw err;
+    res.redirect('/admin/banners');
+  });
+});
+
+app.post('/admin/banners/delete/:id', requireAdmin, (req, res) => {
+  const bannerId = req.params.id;
+  db.query('DELETE FROM banners WHERE id = ?', [bannerId], (err) => {
+    if (err) throw err;
+    res.redirect('/admin/banners');
   });
 });
 

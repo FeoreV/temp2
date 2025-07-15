@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('../partials/admin-header') %>
+  <div class="admin-container">
+    <h1><%= title %></h1>
+    <form action="<%= action %>" method="POST">
+      <div>
+        <label for="title">Заголовок:</label>
+        <input type="text" id="title" name="title" value="<%= banner.title || '' %>" required>
+      </div>
+      <div>
+        <label for="image_url">URL изображения:</label>
+        <input type="text" id="image_url" name="image_url" value="<%= banner.image_url || '' %>" required>
+      </div>
+      <div>
+        <label for="link_url">URL ссылки:</label>
+        <input type="text" id="link_url" name="link_url" value="<%= banner.link_url || '' %>">
+      </div>
+      <button type="submit"><%= submitText %></button>
+    </form>
+  </div>
+</body>
+</html>

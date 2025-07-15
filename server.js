@@ -14,6 +14,15 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
+// Middleware to protect admin routes
+const requireAdmin = (req, res, next) => {
+  if (req.session.isAdmin) {
+    next();
+  } else {
+    res.redirect('/admin/login');
+  }
+};
+
 app.get('/', (req, res) => {
   db.query('SELECT * FROM banners', (err, banners) => {
     if (err) throw err;
@@ -214,6 +223,9 @@ const db = require('./database');
 const upload = multer({ dest: 'uploads/' });
 
 app.post('/admin/products/import', requireAdmin, upload.single('csv'), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send('No file uploaded.');
+  }
   const results = [];
   fs.createReadStream(req.file.path)
     .pipe(csv())
@@ -411,15 +423,6 @@ app.post('/place-order', (req, res) => {
 app.get('/thank-you', (req, res) => {
   res.send('Спасибо за ваш заказ!');
 });
-
-// Middleware to protect admin routes
-const requireAdmin = (req, res, next) => {
-  if (req.session.isAdmin) {
-    next();
-  } else {
-    res.redirect('/admin/login');
-  }
-};
 
 app.get('/admin/login', (req, res) => {
   res.render('admin/login');

@@ -1,0 +1,37 @@
+<%- include('partials/header', { activePage: '' }) %>
+<main class="container cart-page">
+  <h1>Корзина</h1>
+  <div class="cart-main">
+    <div class="cart-items">
+      <% if (cart.length > 0) { %>
+        <% cart.forEach(item => { %>
+          <div class="cart-item">
+            <img src="<%= item.image_url %>" alt="<%= item.name %>" class="cart-item-img">
+            <div class="cart-item-info">
+              <h3><%= item.name %></h3>
+              <p class="cart-item-price">Цена: <%= item.price %> руб.</p>
+              <p class="cart-item-qty">Количество: <%= item.quantity %></p>
+              <form action="/cart/remove" method="post" class="cart-remove-form">
+                <input type="hidden" name="productId" value="<%= item.id %>">
+                <button type="submit" class="btn-danger"><i class="fas fa-trash"></i> Удалить</button>
+              </form>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p class="empty-message">Ваша корзина пуста.</p>
+      <% } %>
+    </div>
+    <% if (cart.length > 0) { %>
+      <div class="cart-summary">
+        <h3>Итого</h3>
+        <p class="cart-total">Сумма: <%= total %> руб.</p>
+        <a href="/checkout" class="btn btn-primary btn-lg">Оформить заказ</a>
+        <form action="/cart/clear" method="post" class="cart-clear-form">
+          <button type="submit" class="btn-secondary">Очистить корзину</button>
+        </form>
+      </div>
+    <% } %>
+  </div>
+</main>
+<%- include('partials/footer') %>

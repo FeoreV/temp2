@@ -1,0 +1,48 @@
+<%- include('partials/header', { activePage: '' }) %>
+<main class="container checkout-page">
+  <h1>Оформление заказа</h1>
+  <form class="checkout-form" action="/place-order" method="post" onsubmit="return validateCheckoutForm()">
+    <div class="form-group">
+      <label for="name">Имя</label>
+      <input type="text" id="name" name="name" required placeholder="Ваше имя">
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required placeholder="Ваш email">
+    </div>
+    <div class="form-group">
+      <label for="phone">Телефон</label>
+      <input type="tel" id="phone" name="phone" required placeholder="+7 (___) ___-__-__">
+    </div>
+    <div class="form-group">
+      <label for="address">Адрес доставки</label>
+      <textarea id="address" name="address" required placeholder="Город, улица, дом, квартира..."></textarea>
+    </div>
+    <div class="payment-methods">
+      <h3>Способ оплаты</h3>
+      <label><input type="radio" name="payment" value="card" checked> Банковской картой</label>
+      <label><input type="radio" name="payment" value="cash"> Наличными при получении</label>
+    </div>
+    <div class="delivery-methods">
+      <h3>Способ доставки</h3>
+      <label><input type="radio" name="delivery" value="courier" checked> Курьером</label>
+      <label><input type="radio" name="delivery" value="pickup"> Самовывоз</label>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Подтвердить заказ</button>
+  </form>
+</main>
+<%- include('partials/footer') %>
+<script>
+function validateCheckoutForm() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  if (!name || !email || !phone || !address) {
+    alert('Пожалуйста, заполните все обязательные поля!');
+    return false;
+  }
+  // Можно добавить более строгую валидацию email/phone
+  return true;
+}
+</script>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru" class="theme-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наш Магазин — Главная</title>
+    <meta name="description" content="Современный интернет-магазин: широкий ассортимент, лучшие цены, быстрая доставка. Всё для профессионалов и любителей.">
+    <meta name="keywords" content="интернет-магазин, купить, доставка, товары, профессионалы, ассортимент, цены, Tyumen, shop">
+    <meta property="og:title" content="Наш Магазин — Главная">
+    <meta property="og:description" content="Широкий ассортимент, лучшие цены, быстрая доставка. Всё для профессионалов и любителей.">
+    <meta property="og:image" content="/images/placeholder-banner1.png">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <%- include('partials/header', { activePage: typeof activePage !== 'undefined' ? activePage : 'home' }) %>
+    <main class="main-home container">
+        <!-- Слайдер баннеров -->
+        <section class="hero-slider">
+            <% if (banners && banners.length > 0) { %>
+                <div class="slider-container">
+                    <div class="slider-wrapper">
+                        <% banners.forEach((banner, index) => { %>
+                            <div class="slider-slide <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>">
+                                <div class="hero-content">
+                                    <h1><%= banner.title %></h1>
+                                    <% if (banner.subtitle) { %>
+                                        <p><%= banner.subtitle %></p>
+                                    <% } %>
+                                    <% if (banner.button_text && banner.button_url) { %>
+                                        <a href="<%= banner.button_url %>" class="btn btn-primary btn-lg"><%= banner.button_text %></a>
+                                    <% } %>
+                                </div>
+                                <div class="hero-image">
+                                    <img src="<%= banner.image_url %>" alt="<%= banner.title %>">
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                    
+                    <!-- Навигационные точки -->
+                    <div class="slider-dots">
+                        <% banners.forEach((banner, index) => { %>
+                            <button class="slider-dot <%= index === 0 ? 'active' : '' %>" data-index="<%= index %>" aria-label="Перейти к слайду <%= index + 1 %>"></button>
+                        <% }); %>
+                    </div>
+                    
+                    <!-- Стрелки навигации -->
+                    <% if (banners.length > 1) { %>
+                        <button class="slider-arrow slider-prev" aria-label="Предыдущий слайд">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="slider-arrow slider-next" aria-label="Следующий слайд">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    <% } %>
+                </div>
+            <% } else { %>
+                <!-- Fallback баннер если нет активных баннеров -->
+                <section class="hero">
+                    <div class="hero-content">
+                        <h1>Добро пожаловать в современный магазин!</h1>
+                        <p>Лучшие товары для профессионалов и любителей. Быстро. Качественно. Надёжно.</p>
+                        <a href="/catalog" class="btn btn-primary btn-lg">Перейти в каталог</a>
+                    </div>
+                    <div class="hero-image">
+                        <img src="/images/placeholder-banner1.png" alt="Главный баннер">
+                    </div>
+                </section>
+            <% } %>
+        </section>
+        <!-- Категории -->
+        <section class="categories-block">
+            <h2>Категории</h2>
+            <div class="category-list grid-3">
+                <% categories.forEach(category => { %>
+                    <div class="category-card">
+                        <a href="/catalog?category=<%= category.id %>">
+                            <div class="category-img-wrap">
+                                <img src="https://via.placeholder.com/300x300?text=<%= category.name %>" alt="Категория: <%= category.name %>">
+                            </div>
+                            <h3><%= category.name %></h3>
+                        </a>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+        <!-- Преимущества -->
+        <section class="usp-block">
+            <h2>Почему выбирают нас?</h2>
+            <div class="usp-list">
+                <div class="advantage-card">
+                    <img src="/images/icon-assortment.svg" alt="Широкий ассортимент" class="advantage-icon">
+                    <h3>Широкий ассортимент</h3>
+                    <p>Проволока, электроды, абразивы, СИЗ, оборудование и многое другое.</p>
+                </div>
+                <div class="advantage-card">
+                    <img src="/images/icon-quality.svg" alt="Высокое качество" class="advantage-icon">
+                    <h3>Высокое качество</h3>
+                    <p>Только сертифицированная продукция от проверенных производителей.</p>
+                </div>
+                <div class="advantage-card">
+                    <img src="/images/icon-prices.svg" alt="Конкурентные цены" class="advantage-icon">
+                    <h3>Конкурентные цены</h3>
+                    <p>Выгодные условия для оптовых и розничных покупателей.</p>
+                </div>
+                <div class="advantage-card">
+                    <img src="/images/icon-delivery.svg" alt="Оперативная доставка" class="advantage-icon">
+                    <h3>Оперативная доставка</h3>
+                    <p>Быстрая логистика по Тюмени, области и в регионы СНГ.</p>
+                </div>
+                <div class="advantage-card">
+                    <img src="/images/icon-support.svg" alt="Экспертная поддержка" class="advantage-icon">
+                    <h3>Экспертная поддержка</h3>
+                    <p>Консультации и помощь в выборе оптимальных решений для ваших задач.</p>
+                </div>
+            </div>
+        </section>
+        <!-- Новинки -->
+        <section class="new-products-block">
+            <h2>Новинки</h2>
+            <div class="product-list grid-4">
+                <% newProducts.forEach(product => { %>
+                    <div class="product-card">
+                        <a href="/product/<%= product.id %>">
+                            <div class="product-img-wrap">
+                                <img src="<%= product.image_url %>" alt="Товар: <%= product.name %>">
+                            </div>
+                            <h3><%= product.name %></h3>
+                            <p class="product-price">Цена: <%= product.price %> руб.</p>
+                        </a>
+                        <form action="/cart/add" method="post">
+                            <input type="hidden" name="productId" value="<%= product.id %>">
+                            <button type="submit" class="btn btn-primary">В корзину</button>
+                        </form>
+                    </div>
+                <% }); %>
+            </div>
+            <% if (newProducts.length === 0) { %>
+                <p class="empty-message">Пока нет новых товаров.</p>
+            <% } %>
+        </section>
+        <!-- Хиты продаж -->
+        <section class="best-sellers-block">
+            <h2>Хиты продаж</h2>
+            <div class="product-list grid-4">
+                <% bestSellers.forEach(product => { %>
+                    <div class="product-card">
+                        <a href="/product/<%= product.id %>">
+                            <div class="product-img-wrap">
+                                <img src="<%= product.image_url %>" alt="Товар: <%= product.name %>">
+                            </div>
+                            <h3><%= product.name %></h3>
+                            <p class="product-price">Цена: <%= product.price %> руб.</p>
+                        </a>
+                        <form action="/cart/add" method="post">
+                            <input type="hidden" name="productId" value="<%= product.id %>">
+                            <button type="submit" class="btn btn-primary">В корзину</button>
+                        </form>
+                    </div>
+                <% }); %>
+            </div>
+            <% if (bestSellers.length === 0) { %>
+                <p class="empty-message">Пока нет хитов продаж.</p>
+            <% } %>
+        </section>
+        <!-- Отзывы -->
+        <section class="reviews-block">
+            <h2>Отзывы клиентов</h2>
+            <div class="review-list">
+                <div class="review-item">
+                    <p>"Отличный магазин! Всем рекомендую."</p>
+                    <span>- Иван Иванов</span>
+                </div>
+                <div class="review-item">
+                    <p>"Быстрая доставка и приятные цены."</p>
+                    <span>- Ольга Петрова</span>
+                </div>
+                <div class="review-item">
+                    <p>"Всегда помогут с выбором!"</p>
+                    <span>- Сергей Смирнов</span>
+                </div>
+            </div>
+        </section>
+        <%- include('partials/footer') %>
+    </main>
+    <script src="/js/script.js"></script>
+    <script src="/js/banner-slider.js"></script>
+</body>
+</html>

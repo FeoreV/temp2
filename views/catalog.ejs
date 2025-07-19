@@ -1,0 +1,143 @@
+<%- include('partials/header', {
+  activePage: typeof activePage !== 'undefined' ? activePage : 'catalog',
+  pageTitle: 'Каталог товаров',
+  metaDescription: 'Каталог товаров: широкий выбор, лучшие цены, быстрая доставка. Выберите и закажите онлайн.',
+  metaKeywords: 'каталог, товары, купить, интернет-магазин, ассортимент, цены, Tyumen, shop',
+  ogTitle: 'Каталог товаров',
+  ogDescription: 'Широкий выбор товаров, лучшие цены, быстрая доставка. Закажите онлайн.'
+}) %>
+<main class="container catalog-page">
+  <div class="catalog-mobile-filters-bar">
+    <button class="btn btn-primary" id="toggleFilters">Фильтры</button>
+  </div>
+  <div class="catalog-layout">
+    <aside class="filters" id="filtersPanel">
+      <h2>Фильтры</h2>
+      <div class="filter-group">
+        <h3>Цена</h3>
+        <input type="range" min="0" max="10000" value="5000" id="priceRange" aria-label="Фильтр по цене">
+        <span id="priceValue">до 5000 руб.</span>
+      </div>
+      <div class="filter-group">
+        <h3>Категории</h3>
+        <% categories.forEach(category => { %>
+          <label><input type="checkbox" name="category" value="<%= category.id %>"> <%= category.name %></label>
+        <% }); %>
+      </div>
+      <div class="filter-group">
+        <h3>Поиск</h3>
+        <input type="text" id="searchInput" placeholder="Поиск..." aria-label="Поиск по каталогу">
+      </div>
+      <button class="btn btn-primary" id="applyFilters" aria-label="Применить фильтры">Применить</button>
+    </aside>
+    <section class="catalog-products">
+      <div class="toolbar">
+        <div class="sort">
+          Сортировать по:
+          <select id="sortSelect" aria-label="Сортировка товаров">
+            <option value="price_asc">Цене (по возрастанию)</option>
+            <option value="price_desc">Цене (по убыванию)</option>
+            <option value="popularity">Популярности</option>
+            <option value="newest">Новизне</option>
+          </select>
+        </div>
+      </div>
+      <div class="product-list" id="productList">
+        <% products.forEach(product => { %>
+          <div class="product-card" data-category="<%= product.category_id %>" data-price="<%= product.price %>" data-name="<%= product.name.toLowerCase() %>">
+            <div class="product-img-wrap">
+              <img src="<%= product.image_url %>" alt="Товар: <%= product.name %>" loading="lazy">
+            </div>
+            <h3><%= product.name %></h3>
+            <p class="product-price">Цена: <%= product.price %> руб.</p>
+            <form action="/cart/add" method="post" aria-label="Добавить <%= product.name %> в корзину">
+              <input type="hidden" name="productId" value="<%= product.id %>">
+              <button type="submit" class="btn btn-primary" aria-label="В корзину: <%= product.name %>">В корзину</button>
+            </form>
+          </div>
+        <% }); %>
+      </div>
+      <% if (products.length === 0) { %>
+        <p class="empty-message">Товары не найдены.</p>
+      <% } %>
+    </section>
+  </div>
+  <%- include('partials/footer') %>
+</main>
+<script>
+// Фильтры и поиск (frontend)
+document.addEventListener('DOMContentLoaded', function() {
+  const priceRange = document.getElementById('priceRange');
+  const priceValue = document.getElementById('priceValue');
+  const searchInput = document.getElementById('searchInput');
+  const sortSelect = document.getElementById('sortSelect');
+  const productList = document.getElementById('productList');
+  const categoryCheckboxes = document.querySelectorAll('input[name="category"]');
+  const applyFilters = document.getElementById('applyFilters');
+
+  priceRange.addEventListener('input', function() {
+    priceValue.textContent = `до ${priceRange.value} руб.`;
+  });
+
+  applyFilters.addEventListener('click', function() {
+    filterProducts();
+  });
+  searchInput.addEventListener('input', filterProducts);
+  sortSelect.addEventListener('change', filterProducts);
+  categoryCheckboxes.forEach(cb => cb.addEventListener('change', filterProducts));
+
+  function filterProducts() {
+    const maxPrice = parseInt(priceRange.value);
+    const search = searchInput.value.toLowerCase();
+    const selectedCategories = Array.from(categoryCheckboxes).filter(cb => cb.checked).map(cb => cb.value);
+    const sort = sortSelect.value;
+    const cards = Array.from(productList.children);
+    let filtered = cards.filter(card => {
+      const price = parseInt(card.getAttribute('data-price'));
+      const name = card.getAttribute('data-name');
+      const category = card.getAttribute('data-category');
+      const matchPrice = price <= maxPrice;
+      const matchSearch = name.includes(search);
+      const matchCategory = selectedCategories.length === 0 || selectedCategories.includes(category);
+      return matchPrice && matchSearch && matchCategory;
+    });
+    // Сортировка
+    filtered.sort((a, b) => {
+      if (sort === 'price_asc') return a.getAttribute('data-price') - b.getAttribute('data-price');
+      if (sort === 'price_desc') return b.getAttribute('data-price') - a.getAttribute('data-price');
+      if (sort === 'newest') return b.dataset.id - a.dataset.id;
+      return 0;
+    });
+    // Очистить и добавить
+    productList.innerHTML = '';
+    filtered.forEach(card => productList.appendChild(card));
+    if (filtered.length === 0) {
+      productList.innerHTML = '<p class="empty-message">Товары не найдены.</p>';
+    }
+  }
+
+  // Мобильный аккордеон фильтров
+  const toggleFilters = document.getElementById('toggleFilters');
+  const filtersPanel = document.getElementById('filtersPanel');
+  if (toggleFilters && filtersPanel) {
+    function setFiltersVisibility() {
+      if (window.innerWidth <= 600) {
+        filtersPanel.classList.add('mobile-collapsed');
+        filtersPanel.style.display = 'none';
+      } else {
+        filtersPanel.classList.remove('mobile-collapsed');
+        filtersPanel.style.display = '';
+      }
+    }
+    setFiltersVisibility();
+    window.addEventListener('resize', setFiltersVisibility);
+    toggleFilters.addEventListener('click', function() {
+      if (filtersPanel.style.display === 'none') {
+        filtersPanel.style.display = '';
+      } else {
+        filtersPanel.style.display = 'none';
+      }
+    });
+  }
+});
+</script>

@@ -1,0 +1,36 @@
+<%- include('../partials/header', { activePage: '' }) %>
+
+<main>
+  <h1><%= title %></h1>
+
+  <form action="<%= action %>" method="post">
+    <div class="form-group">
+      <label for="name">Название</label>
+      <input type="text" id="name" name="name" value="<%= product.name || '' %>" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Описание</label>
+      <textarea id="description" name="description" required><%= product.description || '' %></textarea>
+    </div>
+    <div class="form-group">
+      <label for="price">Цена</label>
+      <input type="number" id="price" name="price" value="<%= product.price || '' %>" required>
+    </div>
+    <div class="form-group">
+      <label for="category">Категория</label>
+      <select id="category" name="category_id">
+        <% categories.forEach(category => { %>
+          <option value="<%= category.id %>" <%= (product.category_id == category.id) ? 'selected' : '' %>><%= category.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="image_url">URL изображения</label>
+      <input type="text" id="image_url" name="image_url" value="<%= product.image_url || '' %>">
+    </div>
+
+    <button type="submit" class="btn"><%= submitText %></button>
+  </form>
+</main>
+
+<%- include('../partials/footer') %>

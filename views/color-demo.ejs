@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Демонстрация цветовой системы</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/colors.css">
+    <link rel="stylesheet" href="/css/theme-switcher.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .demo-section {
+            margin: 2rem 0;
+            padding: 2rem;
+            border-radius: 8px;
+            background: var(--card-bg-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .demo-item {
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .demo-item h4 {
+            margin: 0 0 0.5rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .demo-item p {
+            margin: 0;
+            font-size: 0.8rem;
+        }
+        
+        .opacity-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .opacity-item {
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        
+        .theme-switcher {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+        }
+        
+        .theme-switcher button {
+            margin: 0.25rem;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+        
+        .theme-switcher .btn-dark {
+            background: var(--rgb-dark);
+            color: var(--rgb-white);
+        }
+        
+        .theme-switcher .btn-light {
+            background: var(--rgb-light);
+            color: var(--rgb-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-switcher">
+        <h3>Старый способ переключения тем:</h3>
+        <button class="btn-dark" onclick="setTheme('theme-dark')">Темная тема</button>
+        <button class="btn-light" onclick="setTheme('theme-light')">Светлая тема</button>
+        <button class="btn-primary" onclick="setTheme('')">Сброс</button>
+        
+        <h3 style="margin-top: 20px;">Новый слайдер переключения тем:</h3>
+        <p>Используйте слайдер в правом верхнем углу хедера для переключения тем</p>
+    </div>
+
+    <div class="container">
+        <h1 class="text-primary">Демонстрация цветовой системы</h1>
+        <p class="text-secondary">Эта страница показывает все доступные цвета и утилитарные классы</p>
+
+        <!-- Основные цвета -->
+        <div class="demo-section">
+            <h2 class="text-accent">Основные цвета</h2>
+            <div class="demo-grid">
+                <div class="demo-item bg-primary text-white">
+                    <h4>Primary</h4>
+                    <p>Основной цвет</p>
+                </div>
+                <div class="demo-item bg-secondary text-white">
+                    <h4>Secondary</h4>
+                    <p>Вторичный цвет</p>
+                </div>
+                <div class="demo-item bg-accent text-dark">
+                    <h4>Accent</h4>
+                    <p>Акцентный цвет</p>
+                </div>
+                <div class="demo-item bg-success text-white">
+                    <h4>Success</h4>
+                    <p>Успех</p>
+                </div>
+                <div class="demo-item bg-warning text-dark">
+                    <h4>Warning</h4>
+                    <p>Предупреждение</p>
+                </div>
+                <div class="demo-item bg-danger text-white">
+                    <h4>Danger</h4>
+                    <p>Ошибка</p>
+                </div>
+                <div class="demo-item bg-info text-white">
+                    <h4>Info</h4>
+                    <p>Информация</p>
+                </div>
+                <div class="demo-item bg-light text-dark">
+                    <h4>Light</h4>
+                    <p>Светлый</p>
+                </div>
+                <div class="demo-item bg-dark text-white">
+                    <h4>Dark</h4>
+                    <p>Темный</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Прозрачные фоны -->
+        <div class="demo-section">
+            <h2 class="text-accent">Прозрачные фоны (Primary)</h2>
+            <div class="opacity-grid">
+                <div class="opacity-item bg-primary-10 text-dark">
+                    <h4>10%</h4>
+                </div>
+                <div class="opacity-item bg-primary-20 text-dark">
+                    <h4>20%</h4>
+                </div>
+                <div class="opacity-item bg-primary-30 text-dark">
+                    <h4>30%</h4>
+                </div>
+                <div class="opacity-item bg-primary-50 text-white">
+                    <h4>50%</h4>
+                </div>
+                <div class="opacity-item bg-primary-70 text-white">
+                    <h4>70%</h4>
+                </div>
+                <div class="opacity-item bg-primary-90 text-white">
+                    <h4>90%</h4>
+                </div>
+            </div>
+        </div>
+
+        <!-- Цвета текста -->
+        <div class="demo-section">
+            <h2 class="text-accent">Цвета текста</h2>
+            <div class="demo-grid">
+                <div class="demo-item bg-light">
+                    <h4 class="text-primary">Primary</h4>
+                    <p class="text-primary">Основной текст</p>
+                </div>
+                <div class="demo-item bg-light">
+                    <h4 class="text-secondary">Secondary</h4>
+                    <p class="text-secondary">Вторичный текст</p>
+                </div>
+                <div class="demo-item bg-light">
+                    <h4 class="text-accent">Accent</h4>
+                    <p class="text-accent">Акцентный текст</p>
+                </div>
+                <div class="demo-item bg-light">
+                    <h4 class="text-success">Success</h4>
+                    <p class="text-success">Успех</p>
+                </div>
+                <div class="demo-item bg-light">
+                    <h4 class="text-warning">Warning</h4>
+                    <p class="text-warning">Предупреждение</p>
+                </div>
+                <div class="demo-item bg-light">
+                    <h4 class="text-danger">Danger</h4>
+                    <p class="text-danger">Ошибка</p>
+                </div>
+                <div class="demo-item bg-light">
+                    <h4 class="text-info">Info</h4>
+                    <p class="text-info">Информация</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="demo-section">
+            <h2 class="text-accent">Кнопки</h2>
+            <div class="demo-grid">
+                <button class="btn btn-primary">Primary</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-success">Success</button>
+                <button class="btn btn-danger">Danger</button>
+                <button class="btn btn-warning">Warning</button>
+            </div>
+        </div>
+
+        <!-- Сообщения -->
+        <div class="demo-section">
+            <h2 class="text-accent">Сообщения</h2>
+            <div class="demo-grid">
+                <div class="message-success">
+                    <h4>Success</h4>
+                    <p>Операция выполнена успешно</p>
+                </div>
+                <div class="message-error">
+                    <h4>Error</h4>
+                    <p>Произошла ошибка</p>
+                </div>
+                <div class="message-warning">
+                    <h4>Warning</h4>
+                    <p>Внимание!</p>
+                </div>
+                <div class="message-info">
+                    <h4>Info</h4>
+                    <p>Информационное сообщение</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Градиенты -->
+        <div class="demo-section">
+            <h2 class="text-accent">Градиенты</h2>
+            <div class="demo-grid">
+                <div class="demo-item gradient-primary text-white">
+                    <h4>Primary Gradient</h4>
+                    <p>Основной градиент</p>
+                </div>
+                <div class="demo-item gradient-secondary text-white">
+                    <h4>Secondary Gradient</h4>
+                    <p>Вторичный градиент</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Тени -->
+        <div class="demo-section">
+            <h2 class="text-accent">Тени</h2>
+            <div class="demo-grid">
+                <div class="demo-item bg-light shadow-primary">
+                    <h4>Primary Shadow</h4>
+                    <p>Тень с основным цветом</p>
+                </div>
+                <div class="demo-item bg-light shadow-secondary">
+                    <h4>Secondary Shadow</h4>
+                    <p>Тень с вторичным цветом</p>
+                </div>
+                <div class="demo-item bg-light shadow-accent">
+                    <h4>Accent Shadow</h4>
+                    <p>Тень с акцентным цветом</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hover эффекты -->
+        <div class="demo-section">
+            <h2 class="text-accent">Hover эффекты</h2>
+            <div class="demo-grid">
+                <button class="btn hover-primary transition-normal">Hover Primary</button>
+                <button class="btn hover-accent transition-normal">Hover Accent</button>
+                <button class="btn hover-success transition-normal">Hover Success</button>
+                <button class="btn hover-danger transition-normal">Hover Danger</button>
+            </div>
+        </div>
+
+        <!-- Переходы -->
+        <div class="demo-section">
+            <h2 class="text-accent">Переходы</h2>
+            <div class="demo-grid">
+                <div class="demo-item bg-primary text-white transition-fast hover-accent">
+                    <h4>Fast Transition</h4>
+                    <p>0.2s</p>
+                </div>
+                <div class="demo-item bg-primary text-white transition-normal hover-accent">
+                    <h4>Normal Transition</h4>
+                    <p>0.3s</p>
+                </div>
+                <div class="demo-item bg-primary text-white transition-slow hover-accent">
+                    <h4>Slow Transition</h4>
+                    <p>0.5s</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Границы -->
+        <div class="demo-section">
+            <h2 class="text-accent">Границы</h2>
+            <div class="demo-grid">
+                <div class="demo-item bg-light border-primary">
+                    <h4>Primary Border</h4>
+                    <p>Основная граница</p>
+                </div>
+                <div class="demo-item bg-light border-secondary">
+                    <h4>Secondary Border</h4>
+                    <p>Вторичная граница</p>
+                </div>
+                <div class="demo-item bg-light border-accent">
+                    <h4>Accent Border</h4>
+                    <p>Акцентная граница</p>
+                </div>
+                <div class="demo-item bg-light border-primary-30">
+                    <h4>Primary 30%</h4>
+                    <p>Прозрачная граница</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/theme-switcher.js"></script>
+    <script>
+        function setTheme(theme) {
+            // Используем новую систему переключения тем
+            if (window.themeSwitcher) {
+                window.themeSwitcher.applyTheme(theme);
+                window.themeSwitcher.updateSliderState();
+            } else {
+                // Fallback для старого способа
+                document.documentElement.className = theme;
+            }
+        }
+    </script>
+</body>
+</html> 

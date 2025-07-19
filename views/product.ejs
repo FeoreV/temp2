@@ -1,0 +1,37 @@
+<%- include('partials/header', { activePage: '' }) %>
+<main class="container product-page">
+  <div class="product-main">
+    <div class="product-gallery">
+      <img src="<%= product.image_url %>" alt="<%= product.name %>" class="product-main-img">
+      <!-- Если будут дополнительные изображения, можно добавить миниатюры -->
+    </div>
+    <div class="product-info">
+      <h1 class="product-title"><%= product.name %></h1>
+      <p class="product-price">Цена: <%= product.price %> руб.</p>
+      <form action="/cart/add" method="post" class="add-to-cart-form">
+        <input type="hidden" name="productId" value="<%= product.id %>">
+        <button type="submit" class="btn btn-primary btn-lg">В корзину</button>
+      </form>
+      <div class="product-description">
+        <h3>Описание</h3>
+        <p><%= product.description %></p>
+      </div>
+    </div>
+  </div>
+  <section class="reviews-block">
+    <h2>Отзывы</h2>
+    <div class="review-list">
+      <% if (reviews && reviews.length > 0) { %>
+        <% reviews.forEach(review => { %>
+          <div class="review-item">
+            <p>"<%= review.text %>"</p>
+            <span>- <%= review.author %></span>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p class="empty-message">Пока нет отзывов.</p>
+      <% } %>
+    </div>
+  </section>
+</main>
+<%- include('partials/footer') %>

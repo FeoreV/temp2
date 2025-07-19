@@ -1,0 +1,30 @@
+<%- include('partials/header', { activePage: typeof activePage !== 'undefined' ? activePage : 'contact' }) %>
+<main class="container contact-page">
+  <section class="contact-hero">
+    <h1>Связаться с нами</h1>
+    <p>Мы всегда готовы ответить на ваши вопросы и помочь с выбором продукции.</p>
+  </section>
+  <section class="contact-info grid-2">
+    <div class="contact-block">
+      <h2>Контактные данные</h2>
+      <p><strong>Email:</strong> info@myshop.com</p>
+      <p><strong>Телефон:</strong> +1 234 567 890</p>
+      <p><strong>Адрес:</strong> г. Тюмень, ул. Примерная, 1</p>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="contact-block">
+      <h2>Форма обратной связи</h2>
+      <form class="contact-form">
+        <input type="text" name="name" placeholder="Ваше имя" required>
+        <input type="email" name="email" placeholder="Ваш email" required>
+        <textarea name="message" placeholder="Ваше сообщение" required></textarea>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+    </div>
+  </section>
+</main>
+<%- include('partials/footer') %> 

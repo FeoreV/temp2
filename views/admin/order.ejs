@@ -1,0 +1,36 @@
+<%- include('../partials/header', { activePage: '' }) %>
+
+<main>
+  <h1>Заказ #<%= order.id %></h1>
+
+  <div class="order-details">
+    <p><strong>Имя клиента:</strong> <%= order.customer_name %></p>
+    <p><strong>Email клиента:</strong> <%= order.customer_email %></p>
+    <p><strong>Сумма:</strong> <%= order.total_price %></p>
+    <p><strong>Дата:</strong> <%= order.created_at %></p>
+  </div>
+
+  <h2>Состав заказа</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>ID товара</th>
+        <th>Название товара</th>
+        <th>Количество</th>
+        <th>Цена</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% items.forEach(item => { %>
+        <tr>
+          <td><%= item.product_id %></td>
+          <td><%= item.name %></td>
+          <td><%= item.quantity %></td>
+          <td><%= item.price %></td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</main>
+
+<%- include('../partials/footer') %>

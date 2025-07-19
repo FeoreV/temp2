@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'Stimul72' %></title>
+  <% if (typeof metaDescription !== 'undefined') { %>
+    <meta name="description" content="<%= metaDescription %>">
+  <% } %>
+  <% if (typeof metaKeywords !== 'undefined') { %>
+    <meta name="keywords" content="<%= metaKeywords %>">
+  <% } %>
+  <% if (typeof ogTitle !== 'undefined') { %>
+    <meta property="og:title" content="<%= ogTitle %>">
+  <% } %>
+  <% if (typeof ogDescription !== 'undefined') { %>
+    <meta property="og:description" content="<%= ogDescription %>">
+  <% } %>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/colors.css">
+  <link rel="stylesheet" href="/css/theme-switcher.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="logo">Stimul72</div>
+  <nav>
+    <a href="/" class="<%= (activePage === 'home') ? 'active' : '' %>">Главная</a>
+    <a href="/catalog" class="<%= (activePage === 'catalog') ? 'active' : '' %>">Каталог</a>
+    <a href="/about" class="<%= (activePage === 'about') ? 'active' : '' %>">О нас</a>
+    <a href="/contact" class="<%= (activePage === 'contact') ? 'active' : '' %>">Контакты</a>
+  </nav>
+  <div class="header-icons">
+    <a href="/cart"><i class="fas fa-shopping-cart"></i></a>
+    <div class="theme-switcher-container">
+      <span class="theme-switcher-label">Тема</span>
+      <label class="theme-switcher">
+        <input type="checkbox" id="theme-slider">
+        <span class="theme-slider"></span>
+      </label>
+    </div>
+  </div>
+</header>
+<!-- Floating mobile bottom bar -->
+<nav class="mobile-floating-bar">
+  <a href="/" class="<%= (activePage === 'home') ? 'active' : '' %>"><i class="fas fa-home"></i><span>Главная</span></a>
+  <a href="/catalog" class="<%= (activePage === 'catalog') ? 'active' : '' %>"><i class="fas fa-th-list"></i><span>Каталог</span></a>
+  <a href="/about" class="<%= (activePage === 'about') ? 'active' : '' %>"><i class="fas fa-info-circle"></i><span>О нас</span></a>
+  <a href="/contact" class="<%= (activePage === 'contact') ? 'active' : '' %>"><i class="fas fa-phone"></i><span>Контакты</span></a>
+  <a href="/cart"><i class="fas fa-shopping-cart"></i><span>Корзина</span></a>
+</nav>
+<script src="/js/theme-switcher.js"></script>

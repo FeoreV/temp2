@@ -1,0 +1,33 @@
+<%- include('partials/header', { activePage: typeof activePage !== 'undefined' ? activePage : 'about' }) %>
+<main class="container about-page">
+  <section class="about-hero">
+    <h1>О компании Stimul72</h1>
+    <p>Мы — команда профессионалов, которая помогает бизнесу и частным клиентам находить лучшие решения для производства, строительства и ремонта. Работаем на рынке более 10 лет и гордимся своей репутацией.</p>
+  </section>
+  <section class="about-mission">
+    <h2>Наша миссия</h2>
+    <p>Делать качественные товары и сервис доступными для каждого клиента. Мы ценим доверие и всегда стремимся к совершенству.</p>
+  </section>
+  <section class="about-advantages grid-3">
+    <div class="advantage-card">
+      <img src="/images/icon-quality.svg" alt="Качество" class="advantage-icon">
+      <h3>Гарантия качества</h3>
+      <p>Только сертифицированная продукция и проверенные поставщики.</p>
+    </div>
+    <div class="advantage-card">
+      <img src="/images/icon-support.svg" alt="Поддержка" class="advantage-icon">
+      <h3>Экспертная поддержка</h3>
+      <p>Профессиональные консультации и индивидуальный подход.</p>
+    </div>
+    <div class="advantage-card">
+      <img src="/images/icon-delivery.svg" alt="Доставка" class="advantage-icon">
+      <h3>Быстрая доставка</h3>
+      <p>Оперативная логистика по городу, области и регионам.</p>
+    </div>
+  </section>
+  <section class="about-team">
+    <h2>Наша команда</h2>
+    <p>В нашем коллективе работают опытные специалисты, которые любят своё дело и всегда готовы помочь вам с выбором.</p>
+  </section>
+</main>
+<%- include('partials/footer') %> 

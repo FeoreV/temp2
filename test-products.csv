@@ -1,0 +1,5 @@
+name,description,price,category_id,image_url
+"Тестовый товар 1","Описание товара 1",100,1,https://via.placeholder.com/250
+"Тестовый товар 2","Описание товара 2",200,1,https://via.placeholder.com/250
+"Тестовый товар 3","Описание товара 3",300,1,https://via.placeholder.com/250
+"Тестовый товар 4","Описание товара 4",400,1,https://via.placeholder.com/250 
